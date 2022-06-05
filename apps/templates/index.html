@@ -1,0 +1,126 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-2"><!-- Пусто --></div>
+               
+                <div class="col-8">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Добавить данные машины</button>
+  
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Добавить</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    <div class="mb-3">
+                                      <label class="form-label">Марка</label>
+                                      <input type="text" name="mark" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Модель</label>
+                                        <input type="text" name="model" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Год</label>
+                                        <input type="text" name="year" class="form-control">
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Объём двигателя</label>
+                                        <input type="text" name="volume" class="form-control">
+                                    </div>
+                                    <button type="submit" name="create_form" class="btn btn-primary">Отправить</button>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+                    <table class="table table-info table-bordered text-center">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Марка</th>
+                            <th scope="col">Модель</th>
+                            <th scope="col">Год</th>
+                            <th scope="col">Объём вигателя</th>
+                            <th scope="col">Действие</th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in data %}
+                                <tr>
+                                    <th scope="row">{{ i.car_id }}</th>
+                                    <td>{{ i.name }}</td>
+                                    <td>{{ i.model_car }}</td>
+                                    <td>{{ i.year_car }}</td>
+                                    <td>{{ i.volume_engine }}</td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ i.car_id }}">Обновить</button>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="{{ url_for('delete', id=i.car_id) }}" class="btn btn-danger">
+                                                    Удалить
+                                                </a>
+                                            </div>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="staticBackdrop{{ i.car_id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Обновить "{{ i.name }} {{ i.model_car }} - {{ i.year_car }}"</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST">
+                                                            <input type="hidden" name="car_id" value="{{ i.car_id }}">
+                                                            <div class="mb-3">
+                                                            <label class="form-label">Марка</label>
+                                                            <input type="text" name="update_mark" class="form-control"  value="{{ i.name }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Модель</label>
+                                                                <input type="text" name="update_model" class="form-control" value="{{ i.model_car }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Год</label>
+                                                                <input type="text" name="update_year" class="form-control" value="{{ i.year_car }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Объём двигателя</label>
+                                                                <input type="text" name="update_volume" class="form-control"  value="{{ i.volume_engine }}">
+                                                            </div>
+                                                            <button type="submit" name="update_form"  class="btn btn-primary">Обновить</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                         
+                        </tbody>
+                      </table>
+                </div>
+
+                <div class="col-2"><!-- Пусто --></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
